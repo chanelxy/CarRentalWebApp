@@ -1,0 +1,288 @@
+version: '3'
+
+networks:
+  kong-net:
+    external: false
+
+services:
+  networks:
+  kong-net:
+    external: false
+
+volumes:
+  pgdata:
+  kongadata:
+
+services:
+
+  #######################################
+  # Postgres: The database used by Kong
+  #######################################
+  kong-database:
+    image: postgres:9.6
+    restart: always
+    networks:
+      - kong-net
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=kong
+
+  #######################################
+  # Kong database migration
+  #######################################
+  kong-migration:
+    image: kong
+    command: "kong migrations bootstrap"
+    networks:
+      - kong-net
+    restart: on-failure
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=password
+    depends_on:
+      - kong-database
+  
+
+  #######################################
+  # Kong: The API Gateway
+  #######################################
+  kong:
+    image: kong
+    restart: always
+    networks:
+      - kong-net
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=password
+      - KONG_PROXY_LISTEN=0.0.0.0:8000
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+    depends_on:
+      - kong-migration
+      - kong-database
+    ports:
+      - "8000:8000"
+
+  #######################################
+  # Konga: Kong GUI
+  #######################################
+  konga:
+    image: pantsel/konga:next
+    restart: always
+    networks:
+      - kong-net
+    volumes:
+      - kongadata:/app/kongadata
+    depends_on:
+      - kong-database
+    ports:
+      - "1337:1337"
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    networks:
+      - kong-net
+
+  car:
+    build: ./car
+    image: cedriclsm/car:1.0.0
+    container_name: car
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+    environment:
+      - dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/car
+      # - dbURL=mysql+mysqlconnector://carma:3pump123@car.cuqbaznzmy8x.ap-southeast-1.rds.amazonaws.com:3306/car
+
+  carowner:
+    build: ./carowner
+    image: cedriclsm/carowner:1.0.0
+    container_name: carowner
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+    environment:
+      - dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/carowner
+      # - dbURL=mysql+mysqlconnector://carma:3pump123@car.cuqbaznzmy8x.ap-southeast-1.rds.amazonaws.com:3306/carowner
+
+  carrenter:
+    build: ./carrenter
+    image: cedriclsm/carrenter:1.0.0
+    container_name: carrenter
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+    environment:
+      - dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/carrenter
+      # - dbURL=mysql+mysqlconnector://carma:3pump123@car.cuqbaznzmy8x.ap-southeast-1.rds.amazonaws.com:3306/carrenter
+
+  rentaltransactions:
+    build: ./rentaltransactions
+    image: cedriclsm/rentaltransactions:1.0.0
+    container_name: rentaltransactions
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+    environment:
+      - dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/rentaltransaction
+      # - dbURL=mysql+mysqlconnector://carma:3pump123@car.cuqbaznzmy8x.ap-southeast-1.rds.amazonaws.com:3306/rentaltransaction
+
+  reviews:
+    build: ./reviews
+    image: cedriclsm/reviews:1.0.0
+    container_name: reviews
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+    environment:
+      - dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/reviews
+      # - dbURL=mysql+mysqlconnector://carma:3pump123@car.cuqbaznzmy8x.ap-southeast-1.rds.amazonaws.com:3306/reviews
+ 
+  searchcar:
+    build: ./searchcar
+    image: cedriclsm/searchcar:1.0.0
+    container_name: searchcar1
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+
+  bookcar:
+    build: ./bookcar
+    image: cedriclsm/bookcar:1.0.0
+    container_name: bookcar1
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+
+ 
+  googlematrix:
+    build: ./googlematrix
+    image: cedriclsm/googlematrix:1.0.0
+    container_name: googlematrix
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+    networks:
+      - kong-net
+
+
+  payment:
+    build: ./payment
+    image: cedriclsm/payment:1.0.0
+    container_name: payment
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+      - rabbitmq
+    networks:
+      - kong-net
+
+
+  bot:
+    build: ./bot
+    image: cedriclsm/bot:1.0.0
+    container_name: bot
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+      - notification
+      - rabbitmq
+        # - condition = service_healthy
+    volumes:
+      # requires sharing of current drive
+      - .:/bot
+    networks:
+      - kong-net
+
+
+  email:
+    build: ./email
+    image: cedriclsm/email:1.0.0
+    container_name: email
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+      - notification
+      - rabbitmq
+        # - condition = service_healthy
+    networks:
+      - kong-net
+
+  notification:
+    build: ./notification
+    image: cedriclsm/notification:1.0.0
+    container_name: notification
+    depends_on:
+      - kong-database
+      - kong-migration
+      - kong
+      # - konga-prepare
+      - konga
+      - rabbitmq
+        # - condition = service_healthy
+    networks:
+      - kong-net

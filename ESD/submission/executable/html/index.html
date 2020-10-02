@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Carma - A car for everyone.</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Cantata+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Imprima" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrapform.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/styleform.css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+</head>
+
+<body>
+	<div id="booking" class="section">
+		
+		<a href="index.html" class='site-logo'>
+			<img src="img/logo.png" alt="">
+		</a>
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="booking-cta" style="width: 100%;">
+						<br/><br/>
+						<h1><span>Rent</span> A Car</h1>
+					</div>
+
+					<!-- Form -->
+					<div class="booking-form">
+						<form id="searchForm">
+							<div class="col-md-12">
+								<div class="form-group">
+									<span class="form-label">Your Location</span>
+									<input class="form-control" id="location" type="text" placeholder="Enter Postal Code">
+								</div>
+							</div>
+
+							<div class="col-md-2">
+								<div class="form-group">
+									<span class="form-label">Type</span>
+									<select class="form-control" id="transmission">
+										<option disabled selected value> </option>
+										<option value='auto'>Auto</option>
+										<option value='manual'>Manual</option>
+									</select>
+									<span class="select-arrow"></span>
+								</div>
+							</div>
+
+							<div class="col-md-2">
+								<div class="form-group">
+									<span class="form-label">Capacity</span>
+									<select class="form-control" id="capacity">
+										<option disabled selected value> </option>
+										<option value='2'> 2 </option>
+										<option value='5'> 5 </option>
+										<option value ='7'> 7 </option>
+										<option value ='>7'> >7 </option>
+									</select>
+									<span class="select-arrow"></span>
+								</div>
+							</div>
+							<br/><br/><br/>
+							<div class="col-md-4">
+								<div class="form-group">
+									<span class="form-label">From</span>
+									<input class="form-control" id="startDate" type="date" required>
+								</div>
+							</div>
+                
+							<div class="col-md-4">
+								<div class="form-group">
+									<span class="form-label">To</span>
+									<input class="form-control" id="endDate" type="date" required>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-btn" >
+									<button class="submit-btn" id='center' >Check Availability</button><br><br>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- show available cars -->
+	<div class ="body" id="body-section">
+        <div class="container">
+           <div id="carsbody" class="body">
+			   <h2> Car Listings </h2>
+				<div id='class'>
+
+				</div>
+			</table>
+		  </div>
+		</div>
+	</div>
+
+
+<!-- Modal -->
+<div class="modal">
+	<div class="modal-content" id='modal-content'>
+	  <div class="close-btn"> &times; </div>
+	  <p id='reviewinfo'>Reviews!</p>
+	</div>
+  </div>
+
+
+	<!-- JavaScript -->
+	<script>
+		// Helper function to display error message
+		function showError(message) {
+			// Hide the table and button in the event of error
+			$('#carsTable').hide();
+	
+			// Display an error under the main container
+			$('#main-container')
+				.append("<label>"+message+"</label>");
+		}
+
+		$(function () {
+			$("#body-section").hide();
+		})
+		
+		function carReview(cID){
+			var modalBtn = document.getElementById("modal-btn")
+			var modal = document.querySelector(".modal")
+			var closeBtn = document.querySelector(".close-btn")
+
+			var serviceURL = "http://localhost:8000/GetReviewsByCID/" + cID;	
+
+			fetch(serviceURL).then(function(response) {
+				return response.json();
+				}).then(function(data) {
+				console.log(data.Reviews);
+
+				if (data.Reviews.length == 0) {
+					var content = "There are no reviews yet, be the first!";
+				}
+
+				else{ 
+					reviews= data.Reviews
+					var content = 
+					"<div class='panel panel-default'>" + 
+					"<div class='panel-heading'>" + reviews[0].crUsername + " </div>"
+					+ "<div class='panel-body'><blockquote>"+ reviews[0].reviewContents +"</blockquote></div></div>";
+				};
+
+				$('#reviewinfo').html(content);
+				}).catch(function() {
+				var content = "There are no reviews yet, be the first!";
+				$('#reviewinfo').html(content);
+				});
+
+			
+			modal.style.display = "block"
+			
+			closeBtn.onclick = function(){
+				modal.style.display = "none"
+			}
+			window.onclick = function(e){
+			if(e.target == modal){
+				modal.style.display = "none"
+			}
+			}
+		}
+
+
+
+		//Upon user's click on 'I want to rent this' on our UI
+		function rent(cID){
+			sessionStorage.cID = cID;
+			sessionStorage.crUsername = "cutie111";
+			sessionStorage.startDate = $('#startDate').val();
+			sessionStorage.endDate = $('#endDate').val();
+			var start_date= new Date(sessionStorage.startDate);
+			var end_date = new Date(sessionStorage.endDate);
+			// console.log(start_date);
+			if(start_date < end_date){
+				window.location.replace("booking.html");
+			}else{
+				alert("Please select a valid start and end date!");
+			}
+			
+		};
+
+		// When user search for cars
+		$("#searchForm").submit(async (event) => {
+			//Prevents screen from refreshing when submitting as we are not going to another page
+            event.preventDefault();
+            $("#error").hide();
+			var location = $('#location').val();
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+
+			var transmission_selector = document.getElementById('transmission');
+			var transmission = transmission_selector.options[transmission_selector.selectedIndex].text;
+
+			var capacity_selector = document.getElementById('capacity');
+			var capacity = capacity_selector.options[capacity_selector.selectedIndex].text;
+
+            var serviceURL = "http://localhost:8000/SearchCarAPI/searchcar/" + startDate  + "/" + endDate + "/" + capacity + "/" + transmission + "/" + location;
+            try {
+                const response =
+                    await fetch(
+                        serviceURL, { method: 'GET', mode: 'cors' }
+                    );
+                const data = await response.json();
+                    var rows = "";
+						cars = data.car
+						car = Object.entries(cars)
+						if (car.length > 0) {
+							var locations = [];
+							for (i = 0; i < car.length; i++) {
+								eachRow =				
+								"<div class='card mb-3'><div class='card text-center' span>" +  
+									"<div class='row no-gutters'><div class='col-md-4'><img class='card-img-top' src='img/cars/5.jpg'></div>" +
+										"<div class='col-md-8'><div class='card-body'>" +
+											"<h5 class='card-title'>" + car[i][1].brand + " " + car[i][1].model + "</h5>" +
+											"<br/><p class='card-text'> Daily Rate: " +  car[i][1].dailyRate + "<br/>" +
+											"Color: " + car[i][1].colour + " | Capacity: " + car[i][1].capacity +
+											" | Tranmission Type: " + car[i][1].transmissionType +  "</p>" + 
+											"<br/> <p>Distance from you: " + car[i][1].distance + "m </p><br/>" +
+											
+											"<button onclick='carReview("+ car[i][1].cID +")' class='btn btn-secondary' id='reviewBtn' data-toggle='modal; data-target='#exampleModalScrollable'>Reviews</button> " +
+											"   <button onclick='rent(" + car[i][1].cID + ")' class='btn btn-warning'>I want to rent this!</button></div></div></div></div></div>";
+									
+								rows += eachRow;
+								locations.push(car[i][1].postalcode);
+							}
+						}
+						else {
+							rows = "<center><p> No cars is available at your preferred date, please try again! </p></center>"
+						}
+					$("#body-section").show();
+					$('#class').html(rows);
+            }	catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				showError
+				('There is a problem retrieving books data, please try again later.<br />'+error);
+		
+		
+				}});
+			
+	</script>
+
+
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

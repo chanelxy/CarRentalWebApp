@@ -1,0 +1,22 @@
+Build
+------
+docker build -t cedriclsm/searchcar:1.0.0 .
+docker build -t cedriclsm/bookcar:1.0.0 .
+
+docker build -t cedriclsm/car:1.0.0 .
+docker build -t cedriclsm/rentaltransactions:1.0.0 .
+docker build -t cedriclsm/carowner:1.0.0 .
+
+
+
+Run
+------
+docker run --rm -d --name=searchcar1 --network=kong-net cedriclsm/searchcar:1.0.0
+
+docker run --rm -d --name=bookcar1 --network=kong-net cedriclsm/bookcar:1.0.0
+
+docker run --rm -d --name=carowner --network=kong-net -e  dbURL=mysql+mysqlconnector://g2t4@host.docker.internal:3306/carowner cedriclsm/carowner:1.0.0
+
+docker run --rm -d --name=rentaltransactions --network=kong-net -e  dbURL=mysql+mysqlconnector://g2t4@host.docker.internal:3306/rentaltransaction cedriclsm/rentaltransactions:1.0.0
+
+docker run --rm -d --name=car --network=kong-net -e  dbURL=mysql+mysqlconnector://g2t4@host.docker.internal:3306/car cedriclsm/car:1.0.0

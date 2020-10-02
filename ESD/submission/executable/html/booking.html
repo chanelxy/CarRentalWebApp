@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Confirm Your Booking</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Cantata+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Imprima" rel="stylesheet">
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Select2 -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrapform.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/styleform.css" />
+
+	<!-- <script src="car_data.js" async></script> -->
+	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+	<script type="text/javascript" src="brand_model.js"></script> 
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+
+
+
+</head>
+
+<body>
+
+	<!-- header -->
+	<header class="header-section clearfix">
+		<div class="header-left">
+			<div class="user-panel">
+				<a href="index.html">
+					<img src="img/logo.png" alt="">
+				</a>
+			</div>
+		</div>
+		<div class="header-right">
+			<div class="user-panel">
+				<a href="crprofile.html" class="register">Profile</a>
+
+			</div> 
+		</div>
+	</header>
+
+<body>
+
+	<div class="body">
+		<!-- <h2>Create A Car Listing</h2> -->
+		<div class="section">
+				<div class="container">
+                        <div class="booking-cta" style="width: 100%;">
+                            <br><br>
+                            <h1 style="font-size: 45px;"><span id = "paymentHeader">Booking Confirmation</span></h2>
+                            <br><br>
+                            <div class="card">
+                                <div class="card-header">
+                                  Booking:
+                                </div>
+                                <div class="card-body" id="payment">
+                                
+                                </div>
+                              </div>
+						</div>
+						
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	
+
+<script>// In your Javascript (external .js resource or <script> tag)
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+
+	var carID = sessionStorage.cID;
+	// var crID = sessionStorage.crID;
+	var crID = '3';
+	var startDate = sessionStorage.startDate;
+	var endDate = sessionStorage.endDate;
+	var coUsername = sessionStorage.coUsername;
+	var crUsername = 'cutie111';
+	var numofdays = date_diff_indays(startDate, endDate);
+
+	function date_diff_indays(date1, date2) {
+	dt1 = new Date(date1);
+	dt2 = new Date(date2);
+	return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+	}
+
+	// retrieve information from searchcar on car information
+	$(document).ready(async () => {
+		var serviceURL = "http://127.0.0.1:8000/SearchCarAPI/searchcar/" + sessionStorage.cID ;
+            try {
+                const response =
+                    await fetch(
+                        serviceURL, { method: 'GET', mode: 'cors'}
+                    );
+					const data = await response.json();
+					var brand = data.brand;
+					var model = data.model;
+					var colour = data.colour;
+					var postalCode = data.postalCode;
+					var dailyRate = data.dailyRate;
+					sessionStorage.coUsername = data.coUsername;
+					sessionStorage.price = data.dailyRate * (numofdays+1);
+
+                    var cardbody = "";
+					cardbody =				
+						"<div class='row no-gutters'>" +
+							"<div class='col-md-6'>" +
+								"<img class='card-img-top' src='img/payment.png' >" +
+							"</div>"+
+							"<div class='card-body'>" + 
+								"<p class='card-text'> <p><span>Car Details: </p></span><br/>" +
+								"<img class='card-img-top' src='img/carbooking.png' style='height:70px; width:70px;'><br/>" + 
+								"<h5 class='card-title'> " +  brand + " " + model + "</h5>" +
+								"<b>Brand & Model:</b> " + brand + " " + model + "<br/>" +
+								"<b>Color:</b> " + colour + " | " + "<b>Location:</b> #" + postalCode + " | <b>Daily Rate:</b> $" + dailyRate + "<br/>" + 
+								"<br/><b>Booking Date:</b> " + sessionStorage.startDate + " to " + sessionStorage.endDate + "</p>" + "<br/>" + 
+							"<div id='paypal-button'>" +
+							"</div>" +
+						"</div>";
+					
+					$('#payment').html(cardbody)
+					
+					paypal.Button.render({
+						env: 'sandbox', // Or 'sandbox'
+						commit: true, // Show a 'Pay Now' button
+						
+						payment: async function() {  
+							var CREATE_PAYMENT_URL  = 'http://127.0.0.1:8000/payment';
+							var requestBody = {
+									crID: crID,
+									itemDescription: "Rental transaction from " + startDate + " - " + endDate,
+									price: sessionStorage.price
+								};
+								
+
+								var requestParam = {
+									method: 'POST', 
+									headers: { "Content-Type": "application/json"}, 
+									mode: 'cors',
+									body: JSON.stringify(requestBody)
+								}
+								try { 
+									const response = await fetch(CREATE_PAYMENT_URL, requestParam);
+									const paypalData = await response.json();
+									sessionStorage.paymentID = paypalData
+									return paypalData.paymentID;
+
+								} catch (error) {
+									console.log(error);
+								}
+						},
+
+						onAuthorize: async function(paypalData) {
+
+					
+							var EXECUTE_PAYMENT_URL = 'http://127.0.0.1:8000/paymentexecute';
+							var requestBody = {
+								crID: crID,
+								paymentID: paypalData.paymentID,
+                    			payerID: paypalData.payerID
+							};
+
+							var requestParam = {
+								method: 'POST', 
+								headers: {"Content-Type": "application/json"}, 
+								mode: 'cors',
+								body: JSON.stringify(requestBody)
+							}
+
+							try { 
+								const response = await fetch(EXECUTE_PAYMENT_URL, requestParam);
+								const data = await response.json();
+								if (data.success) {
+									//remove button
+									$('#paypal-button').remove()
+									//replace header
+									$('#paymentHeader').text("Payment successful")
+								}
+								return data.success;
+							} catch (error) {
+								console.log(error);
+							}
+						}
+
+
+	}, '#paypal-button');
+
+			}
+			catch (error) {
+				// Errors when calling the service; such as network error, 
+				// service offline, etc
+				('There is a problem retrieving car information, please try again later.<br />'+error);
+			}
+	});
+
+
+	
+// Create a rental transaction
+
+$(document).ready(async () => {
+		var requestBody = {
+			cID: sessionStorage.cID,
+			crUsername:crUsername,
+			startDate: startDate,
+			endDate: endDate
+		};
+		var serviceURL = "http://127.0.0.1:8000/BookCarAPI/bookcar";
+		var requestParam = {
+			method: 'POST', 
+			headers: { "Content-Type": "application/json" },
+			mode: 'cors',
+			body: JSON.stringify(requestBody)
+		}
+
+		try {
+			const response = await fetch(serviceURL, requestParam);
+			if (!response.ok){
+				alert('You have already made a booking, please proceed to pay :-)');
+			} else{
+				const data = await response.json();
+				
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+</script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

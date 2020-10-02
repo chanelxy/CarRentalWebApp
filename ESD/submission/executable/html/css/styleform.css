@@ -1,0 +1,537 @@
+
+/*=================================
+
+/*----------------------------------------*/
+/* Template default CSS
+/*----------------------------------------*/
+
+html,
+body {
+	height: 100%;
+	font-family: "Montserrat", sans-serif;;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5
+{	margin: 0;
+	color: #2a2a2a;
+	font-weight: 600;
+}
+
+h1 {
+	font-size: 70px;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+h3 {
+	font-size: 30px;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+h6 {
+	font-size: 11px;
+	color: #d6d6d6;
+}
+
+p {
+	font-size: 15px;
+	color: #6a7080;
+	line-height: 1.8;
+	font-weight: 500;
+}
+
+img {
+	max-width: 100%;
+}
+
+input:focus,
+select:focus,
+button:focus,
+textarea:focus {
+	outline: none;
+}
+
+a:hover,
+a:focus {
+	text-decoration: none;
+	outline: none;
+}
+
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+}
+
+.section {
+	position: relative;
+	height: 100vh;
+}
+
+.section .section-center {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+
+#booking {
+	font-family: 'Imprima', sans-serif;
+	background-image: url('../img/background.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+
+#bookingside {
+	font-family: 'Imprima', sans-serif;
+	background-image: url('../img/background-side.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+.site-logo {
+	left: 50%;
+	margin-top: -125px;
+	margin-left: -70px;
+	position: absolute;
+	top: 35%;
+}
+
+.booking-form {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	/* margin-top: 10px;
+	margin-left: 195px; */
+
+}
+
+.booking-form .form-group {
+	position: relative;
+	display: block;
+	height: 80px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	margin-left: -10px;
+}
+
+.booking-form .form-control {
+	font-family: 'Cantata One', serif;
+	background-color: transparent;
+	border-radius: 0px;
+	border: none;
+	height: 60px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	font-size: 17px;
+	color: #333;
+	font-weight: 600;
+	background: rgba(255, 255, 255, 0.85);
+	padding-top: 30px;
+	-webkit-transition: 0.2s background;
+	transition: 0.2s background;
+}
+
+
+.booking-form .form-control:focus {
+	background: rgba(255, 255, 255, 1);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.booking-form .form-control::-webkit-input-placeholder {
+	color: rgba(51, 51, 51, 0.3);
+}
+
+.booking-form .form-control:-ms-input-placeholder {
+	color: rgba(51, 51, 51, 0.3);
+}
+
+.booking-form .form-control::placeholder {
+	color: rgba(51, 51, 51, 0.3);
+}
+
+.booking-form input[type="date"].form-control:invalid {
+	color: rgba(51, 51, 51, 0.3);
+}
+
+.booking-form select.form-control {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.booking-form select.form-control+.select-arrow {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 24px;
+	text-align: center;
+	pointer-events: none;
+	background: rgba(255, 255, 255, 0.3);
+	height: 20px;
+	line-height: 20px;
+}
+
+.booking-form select.form-control+.select-arrow:after {
+	content: '\279C';
+	display: block;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+	color: #333;
+	font-size: 15px;
+}
+
+.booking-form .form-label {
+	color: #8c5d28;
+	display: block;
+	font-weight: 700;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	position: absolute;
+	left: 10px;
+	top: 0px;
+}
+
+.form-btn {
+	height: 80px;
+	width: 300px;
+	margin-right: -10px;
+	margin-left: -10px;
+	margin-bottom: 10px;
+}
+
+.booking-form .submit-btn {
+	background: #d5b961;
+	border: none;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.6px;
+	height: 60px;
+	border-radius: 0px;
+	font-size: 18px;
+	width: 73%;
+	color: #fff;
+}
+
+#center {
+	display: block;
+	margin-left: 80%;
+	text-align: center;
+}
+
+.booking-cta {
+	text-align: center;
+}
+
+.booking-cta {
+	margin-bottom: 20px;
+}
+
+.booking-cta h1 {
+	font-family: 'Cantata One', serif;
+	color: #fff;
+	font-size: 65px;
+	text-align: center;
+	width: 100%;
+
+}
+
+.booking-cta h2 {
+	font-family: 'Cantata One', serif;
+	color: #333;
+	font-size: 45px;
+	text-align: center;
+	width: 100%;
+
+}
+
+.booking-cta span {
+	color: #d5b961
+
+}
+/* body */
+
+.body { 
+	position: block;
+	width:100%;
+    height: 140%;
+    min-height: 100%;
+}
+
+.btn-block {
+	height: 35px;
+	width: 100%;
+}
+
+.body h2{ 
+	color: #2a2a2a;
+	font-family: 'Cantata One', serif;
+	margin: 30px;
+	font-size: 40px;
+	font-weight: 700;
+	margin-right: -20px;
+	margin-left: 415px;
+	position: relative;
+}
+.body table { 
+	font-size: 12px;
+	color: #2a2a2a;
+	font-weight: 500;
+	margin-bottom: 20px;
+	text-align: center;
+	margin-top: 50px;
+} 
+	
+
+/* header */
+
+.header-section {
+	padding-left: 55px;
+	padding-right: 72px;
+	background: #2a2a2a;
+}
+
+.header-logo {
+	left: 50%;
+	margin-top: -225px;
+	margin-left: -600px;
+	position: absolute;
+	top: 35%;
+}
+
+.header-right {
+	float: right;
+	padding: 44px 0;
+	margin-left: 130px;
+}
+
+.header-left {
+	float: left;
+	padding: 44px 0;
+	margin-left: 130px;
+}
+
+.header-right .user-panel {
+	display: inline-block;
+}
+
+.header-right .hr-btn {
+	display: inline-block;
+	color: #979aa5;
+}
+
+.header-right .user-panel {
+	display: inline-block;
+}
+
+.header-right .user-panel a {
+	font-size: 16px;
+	color: #ffffff;
+	margin: 0 10px;
+}
+
+.header-right li.hover {
+	color: #d5b961;
+}
+
+.header-right .user-panel .register {
+	color: #d5b961;
+	margin-right: 0;
+}
+
+.header-right span {
+	color: #fff;
+	display: inline-block;
+	padding-left: 9px;
+}
+
+.main-menu {
+	list-style: none;
+	float: right;
+}
+
+.main-menu li {
+	display: inline-block;
+	position: relative;
+}
+
+.main-menu li a {
+	display: block;
+	font-size: 16px;
+	color: #ffffff;
+	padding: 44px 10px;
+	margin-left: 60px;
+}
+
+.main-menu li a:hover {
+	color: #d5b961;
+}
+
+.main-menu li:first-child a {
+	margin-left: 0;
+}
+
+.main-menu li:hover .sub-menu {
+	visibility: visible;
+	opacity: 1;
+	margin-top: 0;
+}
+
+.main-menu .sub-menu {
+	position: absolute;
+	list-style: none;
+	width: 220px;
+	left: 60px;
+	top: 100%;
+	padding: 20px 0;
+	visibility: hidden;
+	opacity: 0;
+	margin-top: 50px;
+	background: #fff;
+	z-index: 99;
+	-webkit-transition: all 0.4s;
+	transition: all 0.4s;
+	-webkit-box-shadow: 2px 7px 20px rgba(0, 0, 0, 0.05);
+	box-shadow: 2px 7px 20px rgba(0, 0, 0, 0.05);
+}
+
+.main-menu .sub-menu li {
+	display: block;
+}
+
+.main-menu .sub-menu li a {
+	display: block;
+	color: #000;
+	margin-left: 0;
+	padding: 5px 20px;
+}
+
+.main-menu .sub-menu li a:hover {
+	color: #d5b961;
+}
+
+.slicknav_menu {
+	display: none;
+}
+#notification-container {
+	position: fixed;
+	height: 50px;
+	bottom: 10px;
+	font-size: 36px;
+	color: white;
+	text-align: center;
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+#notification-container:hover {
+	opacity: 1;
+}
+
+/* class deck */
+.class-deck {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.col-sm-4 {
+	padding-top: 5%;
+}
+
+#foot {
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    color: #FFFFFF;
+}
+
+.form-label {
+	font-size: 11px;
+
+}
+
+.card-text p{
+	font-size: 25px;
+}
+
+
+.checked {
+	color: orange;
+  }
+
+
+.fa {
+	font-size:15px;
+	color: black;
+}
+
+
+/* The Modal (background) */
+.modal {
+	display: none;
+	position: fixed; 
+	padding-top: 50px;
+	left: 0; 
+	top: 0;
+	width: 100%;
+	height: 100%; 
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.5);
+  }
+  .modal-content {
+	position: relative; 
+	background-color: white;
+	padding: 20px; 
+	margin: auto; 
+	width: 75%;  
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s
+  }
+  .close-btn {
+	float: right; 
+	color: #2a2a2a; 
+	font-size: 50px;  
+	font-weight: bold;
+  }
+  .close-btn:hover {
+	color: darkgray;
+  }
+  @-webkit-keyframes animatetop {
+	from {top:-300px; opacity:0} 
+	to {top:0; opacity:1}
+  }
+  @keyframes animatetop {
+	from {top:-300px; opacity:0}
+	to {top:0; opacity:1}
+  }
+
+  #reviewinfo {
+	font-size: 20px;
+  }

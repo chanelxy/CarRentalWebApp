@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Profile Page</title>
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Cantata+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Imprima" rel="stylesheet">
+
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Select2 -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrapform.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/styleform.css" />
+
+	<!-- <script src="car_data.js" async></script> -->
+	<script type="text/javascript" src="brand_model.js"></script> 
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+
+
+
+</head>
+
+<body>
+
+	<!-- header -->
+	<header class="header-section clearfix">
+		<a href="index
+		.html" class='header-logo'>
+			<img src="img/logo.png" alt="">
+		</a>
+		<div class="header-right">
+			<div class="user-panel">
+				<a href="index.html" class="register">Sign Out</a>
+				<!-- <font size='1px' color='#d6d6d6'> LOGIN AS  </font> 
+				<a href="" class="login">Renter</a> <font size='3px' color='#d6d6d6'> | </font> 
+				<a href="" class="login">CarOwner</a>
+				
+				<a href="" class="register">Create an account</a> -->
+			</div> 
+		</div>
+	</header>
+
+<body>
+
+	<div class="body">
+		<!-- <h2>Create A Car Listing</h2> -->
+		<div class="section">
+			<div class="container">
+                        <div class="booking-cta" style="width: 100%;">
+                            <br><br>
+                            <h1 style="font-size: 45px;"><span>Profile</span></h2>
+							<br><br>
+							<center>
+							<div class="card mb-6 bg-light" style="max-width: 700px; height:180px;">
+								<div class="row no-gutters">
+								<br/>
+								  <div class="col-md-6">
+									  <br/>
+									<img src="img/profile/cr.jpg" class="card-img rounded-circle" style='width:150px;height:150px'>
+								  </div>
+								  <div class="col-md-4">
+									<div class="card-body">
+									
+									</div>
+								  </div>
+							  </div>
+							</div>
+						</center>
+						<br/>
+						<p style='color: gray;'>______________________________________________________</p> 
+						<h1 style="font-size: 25px; color: #2a2a2a">Transactions</h2><br/>
+
+							<center>
+								<div class="form-group" style="width: 100%;">
+									<div class='row'>
+									<div class='col-sm-1' style='font-size: 14px;'><span>DATE:</span></div>
+									<div class='col-sm-2'><input class="form-control" type="date" id='transactionDate' required></div>
+									<div class='col-sm-1'><button class="btn btn-warning" id="submit">Search</button></div>
+						</div></div> 
+					</center>
+
+							<div id="display_transactions" class="container">
+							
+							
+		
+								<table id="displayTable" class="table">
+										<thead>
+										<tr>
+											<th scope="col">Transaction No.</th>
+											<th scope="col">Date</th>
+											<th scope="col">Car Type</th>
+											<th scope="col">Car Plate Number</th>
+											<th scope="col">Postal Code</th>
+											<th scope="col">Price ($)</th>
+											<th scope="col">Status</th>
+										</tr>
+										</thead>
+								</table>
+								<table id="dateTable" class="table"></table>
+								</div>
+								<span id="searchInsert"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+		</div>
+	</div>
+
+		<!-- <div id="notification-container">
+			hello
+		</div> -->
+	</div>
+
+	
+
+<script>// In your Javascript (external .js resource or <script> tag)
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2();
+	});
+
+	var crID = 3;
+
+	// retrieve profile information from carrenter
+	$(async () => {          
+		// Remember to run CarRenter.py!
+		// var serviceURL = "http://127.0.0.1:7200/carrenter/" + crID;
+		var serviceURL = "http://localhost:8000/GetCRByID/" + crID;
+
+		
+		try {
+			const response = await fetch(serviceURL, { method: 'GET' , mode:'cors'});
+				const data = await response.json();
+				var transaction = data;				
+				// console.log(data);
+
+				row =
+					"<br/><h3 class='card-title'>" + data.name + "</h3><br/>" +
+					"<p class='card-text' style='font-size:9px;'>EMAIL:             <span class='badge badge-pill badge-secondary'style='font-size:10px; color:white'>" + data.email  + "</span> " + 
+					"<p class='card-text' style='font-size:9px;'>RATING: <span class='fa fa-star checked'></span><span class='fa fa-star checked'></span>" +
+					"<span class='fa fa-star checked'></span>" + 
+					"<span class='fa fa-star'></span>" +
+					"<span class='fa fa-star'></span>";
+	
+
+				$('.card-body').html(row);
+			}
+		catch (error) {
+			// Errors when calling the service; such as network error, 
+			// service offline, etc
+			showError('There is a problem retrieving transaction data, please try again later.<br />'+error);
+		} // error
+	});
+
+	// retrieves all rentaltransactions
+	$(async () => {              
+		// Remember to run rentaltransactions.py!
+		// var serviceURL = "http://127.0.0.1:7300/rentaltransactions/cr/" + crID;
+		var serviceURL = "http://localhost:8000/FindRTByCRID/" + crID;
+		try {
+			const response = await fetch(serviceURL, { method: 'GET' , mode:'cors'});
+
+			if (!response.ok){
+				error = "<br/><div class='alert alert-warning' role='alert'> No transactions yet, perhaps, time to book one <a href='http://localhost/esd/index.html' class='alert-link'>here?</a></div>";
+				// $('#displayTable').hide();
+				$('#display_transactions').html(error)
+
+			} else {
+				const data = await response.json();
+				var rows = "";
+				rentaltransactions = data.RentalTransaction
+				rentaltransaction = Object.entries(rentaltransactions)
+				var locations = [];
+
+				for (i = 0; i < rentaltransaction.length; i++) {
+					var carURL = "http://localhost:8000/GetCarByCID/" + rentaltransaction[i][1].carID;
+					// console.log(rentaltransaction[i][1].carID);
+					console.log(carURL);
+					const response = await fetch(carURL, { method: 'GET' , mode:'cors'});
+					// console.log(response);
+					const data = await response.json();
+					var carobject = Object.values(data);
+					carmodel=carobject[0]+" " + carobject[7]
+					carplate=carobject[3]
+					postalcode=carobject[8]
+					// console.log(carobject);
+					eachRow =
+						// "<form id='form' action='crprofile.html'>" +
+						"<tr>" +
+						"<td>" + rentaltransaction[i][1].transactionID + "</td>" +
+						"<input type='hidden' id='" + rentaltransaction[i][1].transactionID + "' name='" +rentaltransaction[i][1].transactionID + "'> </input>" +
+						"<td>" + rentaltransaction[i][1].rentalDate + "</td>" +
+						"<td>" + carmodel + "</td>" +
+						"<td>" + carplate + "</td>" +
+						"<td>" + postalcode + "</td>" +
+						"<td>" + rentaltransaction[i][1].price + "</td>" +
+						"<td>" + rentaltransaction[i][1].rentalStatus + "</td>" +
+						"</tr>";
+						rows += eachRow;
+			}
+			$('#displayTable').append(rows);
+		}
+	}
+		catch (error) {
+			// Errors when calling the service; such as network error, 
+			// service offline, etc
+			console.log('There is a problem retrieving transaction data, please try again later.<br />'+error);
+		} // error
+	})
+
+
+
+	$('#submit').click( async() =>  {
+		// get transactions by date
+		var transactionDate = $('#transactionDate').val()
+		// var serviceURLDate = "http://127.0.0.1:7300/rentaltransactions/date/" + transactionDate;
+		var serviceURLDate = "http://localhost:8000/GetTransByDate/" + transactionDate;
+
+		console.log(serviceURLDate);
+		try {
+			const response = await fetch(serviceURLDate, { method: 'GET' , mode:'cors'});
+			if (!response.ok){
+				error = "<br/><div class='alert alert-warning' role='alert'> No transactions yet, perhaps, time to book one <a href='http://localhost/esd/index.html' class='alert-link'>here?</a></div>";
+
+				// $('#displayTable').hide();
+				$('#display_transactions').html(error)
+			} else {
+				const data = await response.json();
+				var transactionDate = Object.values(data);
+				console.log(transactionDate);
+				var rows = "";
+				transactionDates = data.RentalTransaction
+				transactionDate = Object.entries(transactionDates)
+				var locations = [];
+				
+				for (i = 0; i < transactionDate.length; i++) {
+					var carURL = "http://localhost:8000/GetCarByCID/" + transactionDate[i][1].carID;
+					// console.log(rentaltransaction[i][1].carID);
+					console.log(carURL);
+					const response = await fetch(carURL, { method: 'GET' , mode:'cors'});
+					// console.log(response);
+					const data = await response.json();
+					var carobject = Object.values(data);
+					carmodel=carobject[0]+" " + carobject[7]
+					carplate=carobject[3]
+					postalcode=carobject[8]
+					// console.log(carobject);
+					eachRow =
+						"<tr>" +
+						"<td>" + transactionDate[i][1].transactionID + "</td>" +
+						"<input type='hidden' id='" + transactionDate[i][1].transactionID + "' name='" +transactionDate[i][1].transactionID + "'> </input>" +
+						"<td>" + transactionDate[i][1].rentalDate + "</td>" +
+						"<td>" + carmodel + "</td>" +
+						"<td>" + carplate + "</td>" +
+						"<td>" + postalcode + "</td>" +
+						"<td>" + transactionDate[i][1].price + "</td>" +
+						"<td>" + transactionDate[i][1].rentalStatus + "</td>" +
+						"</tr>";
+						rows += eachRow;
+			}
+			$('#displayTable').append(rows);
+			}
+		}
+		catch (error) {
+		// Errors when calling the service; such as network error, 
+		// service offline, etc
+		showError('There is a problem retrieving transaction data, please try again later.<br />'+error);
+		} // error
+
+		// get transactions by crID
+		// var serviceURLcrID ="http://127.0.0.1:7300/rentaltransactions/cr/1";
+		var serviceURLcrID ="http://localhost:8000/FindRTByCRID/3";
+
+		try {
+			const response = await fetch(serviceURLcrID, { method: 'GET' , mode:'cors'});
+
+			if (!response.ok){
+				$('#displayTable').val('Unable to retrieve Transactions');
+			} else {
+				const data = await response.json();
+				var transactioncrID = Object.values(data);
+				console.log(transactioncrID);
+				
+				
+			}
+		}
+		catch (error) {
+		// Errors when calling the service; such as network error, 
+		// service offline, etc
+		showError('There is a problem retrieving transaction data, please try again later.<br />'+error);
+		} // error
+
+		var result = [];
+
+		var tDate = 0;
+		var tcrID = 0;
+
+		// for (d of transactionDate) {
+		// 	var dateTID = d[tDate].transactionID;
+		// 	for (id of transactioncrID) {
+		// 		var crTID = id[tcrID].transactionID;
+		// 		if (dateTID == crTID) {
+		// 			result.push(id[tcrID]);
+		// 		}
+		// 		tcrID += 1;
+		// 	}
+		// 	tDate += 1;
+		// }
+
+		// if (result.length == 0 || result == undefined) {
+		// 	$('#displayTable').html('There are no transactions on this date');
+		// } else {
+		// 	// var rows = "<thead><tr>" +
+		// 	// 		"<th scope='col'>Transaction No.</th>" +
+		// 	// 		"<th scope='col'>Date</th>" +
+		// 	// 		"<th scope='col'>Price</th>" +
+		// 	// 		"<th scope='col'>Status</th>" +
+		// 	// 	"</tr></thead>";
+			
+		// 	var rows = '';
+
+		// 	for (d of Object.values(result)) {
+		// 		console.log(d);
+		// 		eachRow =
+		// 			"<form id='form' action='crprofile.html'>" +
+		// 			"<tr>" +
+		// 			"<td>" + d.transactionID + "</td>" +
+		// 			"<td>" + d.rentalDate + "</td>" +
+		// 			"<td>" + d.price + "</td>" +
+		// 			"<td>" + d.rentalStatus + "</td>" +
+		// 			"<td><button onclick='returnCar(" + d.transactionID + ")' id='returncar' class='submit-btn'>Return Car</button></td>" +
+		// 			"</tr>";
+		// 			// "</form>";
+		// 		rows += "<tbody>" + eachRow + "</tbody>";
+		// 	}
+		// 	$('#displayTable').html(rows);
+		// }
+
+		// return transactions where transactionID == transactionID
+	});
+
+// Junk code
+	// window.onload = function(){
+	// 	document.getElementById("returncar").onclick = function() {
+	// 		returnCar()
+	// 	};
+	// }
+
+	// async function getTransactionID() {
+	// 	var form = new FormData(document.getElementById("form"));
+	// 	var inputValue = form.get("hidden")
+	// 	console.log(form);
+	// }
+
+	// $("#returncar").click( async() =>  {
+	// 	var x = document.getElementById("returncar").value;
+	// 	console.log("hello");
+	// 	console.log(x);
+	// });
+
+	function returnCar(tID) {
+
+		// var form = new FormData(document.getElementById("form"));
+		// var inputValue = form.get("hidden")
+		// console.log(form);
+		console.log(tID);
+		// var serviceURL = "http://127.0.0.1:7300/rentaltransactions/return/" + tID;
+		var serviceURL = "http://localhost:8000/GetRTByTransID/" + tID;
+
+		// + transactionID;
+		fetch(serviceURL).then(function(response) {
+				return response.json();
+				}).then(function(data) {
+					var transaction = Object.values(data);
+
+				}).catch(function() {
+				error = "<br/><div class='alert alert-warning' role='alert'> An error occurred when updating Rental Transaction in DB <a href='http://localhost/esd/index.html' class='alert-link'>here?</a></div>";
+
+				$('#displayTable').hide();
+				$('#display_transactions').html(error)
+				});
+	
+				// console.log(transaction);
+
+	
+
+		// location.reload();
+		
+	}
+	
+</script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
