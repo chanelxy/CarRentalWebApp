@@ -45,7 +45,7 @@ def email(receiverEmail, emailSubject, messageContent):
         html_content=messageContent)
     try:
         # hard coded API key for SendGrid
-        sg = SendGridAPIClient("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")
+        sg = SendGridAPIClient("")
         response = sg.send(message)
         print(response.status_code)
         print(response.body)

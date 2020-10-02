@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 def create_client():
-	client = googlemaps.Client(key="AIzaSyCVLQFvgAJd0N9bbAP7Zj82kAI-misZExU")
+	client = googlemaps.Client(key="")
 	return client
 
 @app.route("/getcoordinates/<string:postalcode>")

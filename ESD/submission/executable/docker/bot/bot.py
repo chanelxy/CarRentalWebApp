@@ -90,7 +90,7 @@ def update_userlist():
 
 
 def create_bot():
-    bot = telegram.Bot(token = '1119914802:AAFLi9BDPGbviE-r7VIDH5pJIEYPjV0cmTI')
+    bot = telegram.Bot(token = '')
     return bot
 
                 

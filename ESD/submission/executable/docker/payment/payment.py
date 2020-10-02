@@ -10,8 +10,8 @@ CORS(app)
 
 paypalrestsdk.configure({
   "mode": "sandbox", # sandbox or live
-  "client_id": "Ac5dkcoU9M7mQ20p6Rb3dIyD6Xwc1San09OPZNrqluvrw6hXSUtHEAcD621SGgf3-I1GLaZNf05Hl4Kr",
-  "client_secret": "EJo6FqN_t6cTs_MuoE-enjTjOs7HnXmByCElIl1-8CkJsf0k5OWU2Alx7-RauTTKQdGIC_9G7q0FWdxX" })
+  "client_id": "",
+  "client_secret": "" })
 
 @app.route('/')
 def index():
