@@ -34,12 +34,12 @@ CREATE TABLE IF NOT EXISTS `carowner` (
 
 INSERT INTO `carowner` (`coID`, `coUsername`, `name`, `email`, `telegramID`, `coPassword`) 
 VALUES
-(1, 'choozy', 'Choo Zheng Yang', 'choozhengyang@hotmail.com','choo_zy', 'choozy'),
-(2, 'winthony', 'Edwin Lee', 'edwinlee14@gmail.com', 'is0ap', 'winthony'),
-(3, 'charmz', 'Charmaine', 'charmz@gmail.com','cappletrx', 'charmz'),
-(4, 'betaced', 'Cedric', 'cedric@gmail.com', 'CedricLSM', 'betaced'),
-(5, 'fiona', 'Fiona', 'fionaaoye@gmail.com', 'porcupie', 'fiona'),
-(6, 'chanel', 'Chanel', 'chanel@gmail.com', 'chanelxy' , 'chanel');
+(1, 'choozy', 'Choo Zheng Yang', 'x@hotmail.com','choo', 'choozy'),
+(2, 'winthony', 'Edwin Lee', 'y@gmail.com', 'wintho', 'winthony'),
+(3, 'charmz', 'Charmaine', 'z@gmail.com','capplet', 'charmz'),
+(4, 'betaced', 'Cedric', 'b@gmail.com', 'Cedricl', 'betaced'),
+(5, 'fiona', 'Fiona', 'e@gmail.com', 'porcupi', 'fiona'),
+(6, 'chanel', 'Chanel', 'ab@gmail.com', 'chanelx' , 'chanel');
 
 COMMIT;
 

@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `carrenter` (
 
 INSERT INTO `carrenter` (`crID`, `crUsername`, `crPassword`, `name`, `email`, `telegramID`) 
 VALUES 
-(NULL, 'amy111', 'amy111',  'Amy Tan', 'edwinlee14@gmail.com', 'is0ap'),
-(NULL, 'bebe111', 'bebe111', 'Bebe Tan', 'edwinlee14@gmail.com', 'is0ap'),
-(NULL, 'cutie111', 'cutie111', 'Cutie Tan', 'choozhengyang@hotmail.com', 'choo_zy'),
-(NULL, 'doggy111', 'doggy111', 'Doggy Tan', 'fionaaoye@gmail.com', 'porcupie'),
+(NULL, 'amy111', 'amy111',  'Amy Tan', 'edwin14@gmail.com', 'is0ap'),
+(NULL, 'bebe111', 'bebe111', 'Bebe Tan', 'edwin14@gmail.com', 'is0ap'),
+(NULL, 'cutie111', 'cutie111', 'Cutie Tan', 'choo@hotmail.com', 'chzy'),
+(NULL, 'doggy111', 'doggy111', 'Doggy Tan', 'fiona@gmail.com', 'porcupie'),
 (NULL, 'ugly111', 'ugly111', 'Ugly Tan', 'ugly.tan@gmail.com', 'uglytan111');
 
 COMMIT;
